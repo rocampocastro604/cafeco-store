@@ -1,11 +1,12 @@
 import './App.css';
-import Navbar from './components/Navbar/Navbar';
-
-function App() {
+import Navbar from './components/Navbar';
+import ItemListContainer from './components/ItemListContainer'
+const App = () => {
   return (
-  <>
-  <Navbar />
-  </>
+    <>
+    <Navbar />
+    <ItemListContainer greeting="Usuario 1"/>
+    </>
   );
 }
 
