@@ -1,10 +1,21 @@
-import ItemCount from "./ItemCount";
+import { useEffect, useState } from "react";
+import { getData } from "../utils/data";
+import { ItemList } from "./ItemList";
 
-const ItemListContainer = ({greeting}) => {
+const ItemListContainer = () => {
+const [cafes, setCafes] = useState([]);
+
+useEffect(() => {
+  async function retrieveData() {
+    let incomingData = await getData();
+    setCafes(incomingData)
+  }
+  retrieveData()
+}, [])
+
   return(
     <>
-      <h3 style={{padding: "15px"}}>Con los buenos días {greeting}</h3>
-      <ItemCount stock={10} initial={0} />
+      <ItemList cafes={cafes}/>
     </>
   );
 }
