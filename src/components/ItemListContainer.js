@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
-import { getData } from "../utils/data";
+import { useParams } from "react-router-dom";
+import customFetch from "../utils/customFetch";
+import data from "../utils/data";
 import { ItemList } from "./ItemList";
 
 const ItemListContainer = () => {
 const [cafes, setCafes] = useState([]);
+const { processId } = useParams();
 
 useEffect(() => {
-  async function retrieveData() {
-    let incomingData = await getData();
-    setCafes(incomingData)
+  if(processId === undefined) {
+    customFetch(data)
+    .then(result => setCafes(result))
+  }else{
+    customFetch(data.filter(dato => dato.process.toLowerCase() === processId))
+    .then(result => setCafes(result))
   }
-  retrieveData()
-}, [])
+},[processId])
 
   return(
     <>

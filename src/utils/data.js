@@ -58,23 +58,17 @@ const data = [
     price: 15000,
     stock: 10,
     img: '	https://coffeestore.vercel.app/images/coffee/CHOCOLATE-600x400.jpg'
+  },
+  {
+    id: 7,
+    title: 'El Reposaito',
+    process: 'Natural',
+    variety: 'Maragogipee',
+    description: 'A coffee for the lovers of the slow life and exotic flavors. The perfect mix, balance and tones.',
+    price: 32000,
+    stock: 15,
+    img: '	https://coffeestore.vercel.app/images/coffee/CHOCOLATE-600x400.jpg'
   }
 ]
-
-export const getData = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      return resolve(data);
-    }, 2000)
-  })
-}
-
-export const getItem = (dataId) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      return resolve(dataId);
-    }, 2000)
-  })
-}
 
 export default data;

@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
 import ItemDetail from "./ItemDetail";
-import { getItem }  from '../utils/data';
 import data from '../utils/data';
+import customFetch from "../utils/customFetch";
+import { useParams } from "react-router-dom";
 
 const ItemDetailContainer = () => {
-  const [item, setItem] = useState({})
-
+  const [item, setItem] = useState({});
+  const { itemId } = useParams()
 
   useEffect(() => {
-    async function retrieveItem(i) {
-      let incomingData = await getItem(data[i]);
-      setItem(incomingData)
-    }
-    retrieveItem(1)
-
-  },[])
+    customFetch(data[itemId])
+    .then(result => setItem(result))
+  },[itemId])
 
   return(
     <ItemDetail item={item} />
