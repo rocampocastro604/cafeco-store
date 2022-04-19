@@ -9,7 +9,7 @@ export const Item = ({id, title, description, img, price, stock}) => {
         <h2 className="card-title justify-content">{title}</h2>
         <p>${price}</p>
         <p>{description}</p>
-        <ItemCount stock={stock} initial={0}></ItemCount>
+        {/* <ItemCount stock={stock} initial={0}></ItemCount> */}
         <div className="card-actions justify-center">
           <Link to={`item/${id}`}><button className="btn btn-secondary btn-wide">Details</button></Link>
         </div>

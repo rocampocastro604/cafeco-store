@@ -1,7 +1,16 @@
+import { useState } from "react";
 import ItemCount from "./ItemCount";
+import { Link } from "react-router-dom"
 
 const ItemDetail = (item) => {
   const currentItem = item.item;
+  const [quantity, setQuantity] = useState(0);
+
+  const onAdd = (qty) => {
+    alert(`${qty} productos añadidos al carrito de compras`)
+    setQuantity(qty)
+  }
+
   return(
     <>
      {
@@ -20,7 +29,11 @@ const ItemDetail = (item) => {
               <div className="badge badge-error gap-2 ml-3">
                 {currentItem.process}
               </div>
-              <ItemCount stock={currentItem.stock} initial={0}></ItemCount>
+              {
+              quantity === 0 ?
+              <ItemCount stock={currentItem.stock} initial={quantity} onAdd={onAdd}></ItemCount>
+                : <Link to='/cart'><button className="btn btn-success btn-wide ml-2">Checkout</button></Link>
+              }
             </div>
           </div>
         </div>

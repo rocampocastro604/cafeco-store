@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const ItemCount = ({stock, initial}) => {
-  const [quantity, setQuantity] = useState(initial);
+const ItemCount = ({stock, initial, onAdd}) => {
+  const [quantity, setQuantity] = useState(0);
+
+  useEffect(() => {
+    setQuantity(initial);
+  }, [initial])
 
 const onIncrement = () => {
   if(quantity < stock){
@@ -13,10 +17,6 @@ const onSubtract = () => {
   if(quantity > 0){
     setQuantity(quantity-1);
   }
-}
-
-const onAdd = () => {
-  alert(`${quantity} productos añadidos al carrito de compras`);
 }
 
   return(
@@ -37,7 +37,11 @@ const onAdd = () => {
             </button>
           </div>
         </div>
-        <button className="btn btn-primary btn-wide" style={{marginTop: "12px"}} onClick={onAdd}>Add</button>
+        {
+          stock && quantity
+          ? <button className="btn btn-primary btn-wide" style={{marginTop: "12px"}} onClick={() => onAdd(quantity)}>Add</button>
+          : <button className="btn btn-primary btn-wide" disabled="disabled" style={{marginTop: "12px"}}>Add</button>
+        }
       </div>
     </div>
   );
