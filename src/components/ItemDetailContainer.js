@@ -9,7 +9,7 @@ const ItemDetailContainer = () => {
   const { itemId } = useParams()
 
   useEffect(() => {
-    customFetch(data[itemId])
+    customFetch(data[itemId-1])
     .then(result => setItem(result))
   },[itemId])
 
