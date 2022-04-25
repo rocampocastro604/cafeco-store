@@ -9,11 +9,10 @@ const Navbar = () => {
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal p-0">
-          {/* <li><a>About Us</a></li> */}
           <li><Link to='/category/washed'>Washed</Link></li>
           <li><Link to='/category/honey'>Honey</Link></li>
           <li><Link to='/category/natural'>Natural</Link></li>
-          <CartWidget cartItems={0}/>
+          <CartWidget />
         </ul>
       </div>
     </div>

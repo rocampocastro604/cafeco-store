@@ -40,8 +40,8 @@ const ItemDetail = (item) => {
             </div>
           </div>
         </div>
-        : <div class="grid place-items-center h-screen">
-            <progress class="progress progress-secondary w-56"></progress>
+        : <div className="grid place-items-center h-screen">
+            <progress className="progress progress-secondary w-56"></progress>
           </div>
      }
     </>

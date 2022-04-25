@@ -28,12 +28,35 @@ const CartContextProvider = ({children}) => {
     setCartList(result)
   }
 
+  const cartQty = () => {
+    let initialValue = 0;
+    let qtys = cartList.map(item => item.qty);
+    return qtys.reduce((previousValue, currentValue) => previousValue + currentValue, initialValue)
+  }
+
+  const calculateTotalPerItem = (id) => {
+    let index =cartList.map(item => item.id).indexOf(id);
+    return cartList[index].price * cartList[index].qty;
+  }
+
+  const calculateSubtotal = () => {
+    let totalPerItem = cartList.map(item => calculateTotalPerItem(item.id));
+    if(cartList.length > 0){
+      return totalPerItem.reduce((previousValue, currentValue) => previousValue + currentValue);
+    } else {
+      return 0;
+    }
+  }
+
   return (
     <CartContext.Provider value={{
       cartList,
       addToCart,
       clearCart,
-      removeItem
+      removeItem,
+      cartQty,
+      calculateTotalPerItem,
+      calculateSubtotal
       }}>
       {children}
     </CartContext.Provider>

@@ -9,8 +9,8 @@ export const ItemList = ({cafes}) => {
       <div className="flex flex-wrap justify-center">
         {cafes.map(product => <Item key={product.id} {...product} />)}
       </div>
-    : <div class="grid place-items-center h-screen">
-        <progress class="progress progress-secondary w-56"></progress>
+    : <div className="grid place-items-center h-screen">
+        <progress className="progress progress-secondary w-56"></progress>
       </div>
     }
     </>
