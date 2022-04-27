@@ -4,7 +4,7 @@ import { CartContext } from "../contexts/CartContext";
 const Cart = () => {
   const cartContext = useContext(CartContext);
   const cartList = cartContext.cartList;
-  // console.log(cartContext.calculateTotalPerItem());
+
   return(
     <div className="p-10">
     <div className="flex justify-between">
@@ -39,7 +39,7 @@ const Cart = () => {
         (cartList.length > 0)
         ? <div className="flex flex-col">
             <h2 className="text-xl">Subtotal: ${cartContext.calculateSubtotal()}</h2>
-            <button className="btn btn-success mt-2" onClick={()=>console.log('clicked!')}><Link to="/">Checkout</Link></button>
+            <button className="btn btn-success mt-2"><Link to="/checkout">Checkout</Link></button>
             <br></br>
             <button className="btn btn-error mt-2" onClick={() => cartContext.clearCart()}>Clear Cart</button>
             <button className="btn btn-info mt-2"><Link to='/'>Return to Shop</Link></button>

@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import ItemDetail from "./ItemDetail";
-import data from '../utils/data';
-import customFetch from "../utils/customFetch";
 import { useParams } from "react-router-dom";
+import fetchOne from "../utils/fetchOne";
 
 const ItemDetailContainer = () => {
   const [item, setItem] = useState({});
   const { itemId } = useParams()
 
   useEffect(() => {
-    customFetch(data[itemId-1])
+    fetchOne(itemId)
     .then(result => setItem(result))
+    .catch(err => console.log(err))
   },[itemId])
 
   return(
