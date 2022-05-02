@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import {collection, doc, increment, serverTimestamp, setDoc, updateDoc} from "firebase/firestore"
@@ -6,6 +6,16 @@ import db from '../utils/firebaseConfig';
 const Cart = () => {
   const cartContext = useContext(CartContext);
   const cartList = cartContext.cartList;
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+
+
+  const validateEmptyFields = () => {
+    if(name && phone && email !== false){
+      createOrder();
+    }
+  }
 
   const createOrder = () => {
 
@@ -17,11 +27,12 @@ const Cart = () => {
         stock: increment(-item.qty)
       });
     });
+
     let order = {
       buyer: {
-        name: 'Angel Di Maria',
-        phone: '3044744446',
-        email: 'angelito420@gmail.com'
+        name: name,
+        phone: phone,
+        email: email
       },
       items: cartList.map(item => ({
         id: item.id,
@@ -34,18 +45,17 @@ const Cart = () => {
     }
 
     console.log(order);
+      const createOrderInFirestore = async () => {
+        const newOrderRef = doc(collection(db, "orders"));
+        await setDoc(newOrderRef, order);
+        return newOrderRef;
+      }
 
-    const createOrderInFirestore = async () => {
-      const newOrderRef = doc(collection(db, "orders"));
-      await setDoc(newOrderRef, order);
-      return newOrderRef;
-    }
+      createOrderInFirestore()
+      .then(result => alert('Your order number is: ' + result.id))
+      .catch(err => console.log(err));
 
-    createOrderInFirestore()
-    .then(result => alert('Ypur order number is: ' + result.id))
-    .catch(err => console.log(err));
-
-    cartContext.clearCart();
+      cartContext.clearCart();
   }
 
   return(
@@ -80,12 +90,63 @@ const Cart = () => {
       }
       {
         (cartList.length > 0)
-        ? <div className="flex flex-col">
+        ? <div className="flex flex-col justify-center">
             <h2 className="text-xl">Subtotal: ${cartContext.calculateSubtotal()}</h2>
-            <button className="btn btn-success mt-2" onClick={createOrder}>Checkout</button>
+            <form>
+              <div className="grid grid-cols-3 w-full">
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Your Name</span>
+                  </label>
+                  <label className="input-group">
+                    <span>Name</span>
+                    <input type="text"
+                      placeholder="John Doe"
+                      className="input input-bordered"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                      />
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Your Phone</span>
+                  </label>
+                  <label className="input-group">
+                    <span>Phone</span>
+                    <input type="number"
+                      placeholder="123456788"
+                      className="input input-bordered"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      required
+                      />
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Your Email</span>
+                  </label>
+                  <label className="input-group">
+                    <span>Email</span>
+                    <input type="email"
+                      placeholder="info@site.com"
+                      className="input input-bordered"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      />
+                  </label>
+                </div>
+              </div>
+              <div>
+                <button className="btn btn-success mt-2 w-full" onClick={() => validateEmptyFields()}>Checkout</button>
+              </div>
+            </form>
             <br></br>
             <button className="btn btn-error mt-2" onClick={() => cartContext.clearCart()}>Clear Cart</button>
-            <button className="btn btn-info mt-2"><Link to='/'>Return to Shop</Link></button>
+            <Link to='/'><button className="btn btn-info mt-2">Return to Shop</button></Link>
           </div>
         : <br></br>
       }
