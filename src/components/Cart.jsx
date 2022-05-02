@@ -1,9 +1,52 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
+import {collection, doc, increment, serverTimestamp, setDoc, updateDoc} from "firebase/firestore"
+import db from '../utils/firebaseConfig';
 const Cart = () => {
   const cartContext = useContext(CartContext);
   const cartList = cartContext.cartList;
+
+  const createOrder = () => {
+
+    cartList.forEach(async (item) => {
+      const itemRef = doc(db, "products", item.id);
+      await updateDoc(itemRef, {
+        //Actualizar el stock de los productos del carrito
+        //funcion Increment sale de documentacion de Firebase
+        stock: increment(-item.qty)
+      });
+    });
+    let order = {
+      buyer: {
+        name: 'Angel Di Maria',
+        phone: '3044744446',
+        email: 'angelito420@gmail.com'
+      },
+      items: cartList.map(item => ({
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        qty: item.qty
+      })),
+      date: serverTimestamp(),
+      total: cartContext.calculateSubtotal()
+    }
+
+    console.log(order);
+
+    const createOrderInFirestore = async () => {
+      const newOrderRef = doc(collection(db, "orders"));
+      await setDoc(newOrderRef, order);
+      return newOrderRef;
+    }
+
+    createOrderInFirestore()
+    .then(result => alert('Ypur order number is: ' + result.id))
+    .catch(err => console.log(err));
+
+    cartContext.clearCart();
+  }
 
   return(
     <div className="p-10">
@@ -39,7 +82,7 @@ const Cart = () => {
         (cartList.length > 0)
         ? <div className="flex flex-col">
             <h2 className="text-xl">Subtotal: ${cartContext.calculateSubtotal()}</h2>
-            <button className="btn btn-success mt-2"><Link to="/checkout">Checkout</Link></button>
+            <button className="btn btn-success mt-2" onClick={createOrder}>Checkout</button>
             <br></br>
             <button className="btn btn-error mt-2" onClick={() => cartContext.clearCart()}>Clear Cart</button>
             <button className="btn btn-info mt-2"><Link to='/'>Return to Shop</Link></button>
