@@ -22,6 +22,9 @@ npm install
 - Firebase
   - Firestore
 
+## Site URL
+Site can be found in [Website preview](https://cafeco-store.netlify.app/)
+
 ## Authors
 Ricardo Ocampo Castro
 
