@@ -25,6 +25,9 @@ npm install
 ## Site URL
 Site can be found in [Website preview](https://cafeco-store.netlify.app/)
 
+## Video demo
+https://user-images.githubusercontent.com/44033716/167013675-f273a832-0463-44ab-9233-24bc986f03c6.mp4
+
 ## Authors
 Ricardo Ocampo Castro
 
